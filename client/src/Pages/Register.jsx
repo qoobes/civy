@@ -37,6 +37,7 @@ const Register = () => {
 
     if (!checkEmail(email))
       return toast({
+        position: "top",
         title: "Bad Email",
         description: "Your email is not valid",
         status: "error",
@@ -44,6 +45,7 @@ const Register = () => {
 
     if (password.length < 5)
       return toast({
+        position: "top",
         title: "Weak Password",
         description: "Please enter a stronger password",
         status: "error",
@@ -51,6 +53,7 @@ const Register = () => {
 
     if (name.length < 2)
       return toast({
+        position: "top",
         title: "Name too short",
         description: "Please enter a longer name",
         status: "error",
@@ -73,20 +76,23 @@ const Register = () => {
                 id: firebase.auth().currentUser.uid,
                 displayName: name,
                 photoUrl: "",
+                companies: [],
               })
               .then(() => {
                 toast({
+                  position: "top",
                   title: "Account Created",
                   description: "Welcome to Civy",
                   status: "success",
                 });
-                setTimeout(() => history.push("/dashboard"), 500);
+                setTimeout(() => history.push("/create"), 500);
               });
           });
       })
       .catch(error => {
         console.log(error);
         toast({
+          position: "top",
           title: "Existing account",
           description: "An account with that email already exists",
           status: "error",
@@ -111,6 +117,7 @@ const Register = () => {
           <Box w="25%">
             <FormLabel mt="1rem">Name</FormLabel>
             <Input
+              bgColor="#ffffffcc"
               ref={nameRef}
               placeholder="Jimi Hendrix"
               focusBorderColor="#06919155"
@@ -120,6 +127,7 @@ const Register = () => {
           <Box w="25%">
             <FormLabel mt="1rem">E-Mail</FormLabel>
             <Input
+              bgColor="#ffffffcc"
               ref={emailRef}
               type="email"
               placeholder="jimi@hendrix.com"
@@ -130,6 +138,7 @@ const Register = () => {
           <Box w="25%">
             <FormLabel mt="1rem">Password</FormLabel>
             <Input
+              bgColor="#ffffffcc"
               ref={passwordRef}
               type="password"
               placeholder="purplehaze123"
@@ -150,11 +159,15 @@ const Register = () => {
           </Text>
 
           <Button
-            mt="1.5rem"
+            mt={6}
+            fontWeight="bolder"
+            size="md"
+            w="7rem"
+            ml={2}
+            variant="ghost"
             colorScheme="teal"
-            w="6.5rem"
+            bgColor="#00808011"
             onClick={submit}
-            isLoading={loading}
           >
             Register
           </Button>

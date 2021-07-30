@@ -27,6 +27,7 @@ const Login = () => {
 
     if (password.length < 5)
       return toast({
+        position: "top",
         title: "Error",
         description: "Please check your credentials",
         status: "error",
@@ -37,6 +38,7 @@ const Login = () => {
       .signInWithEmailAndPassword(email, password)
       .then(yes => {
         toast({
+          position: "top",
           title: "Signed in",
           description: "Welcome to Civy",
           status: "success",
@@ -46,6 +48,7 @@ const Login = () => {
       .catch(error => {
         console.log(error);
         toast({
+          position: "top",
           title: "Error",
           description: "Please check your credentials",
           status: "error",
@@ -72,6 +75,7 @@ const Login = () => {
             <Input
               type="email"
               ref={emailRef}
+              bgColor="#ffffffcc"
               placeholder="eddie@van.halen"
               focusBorderColor="#06919155"
             />
@@ -81,6 +85,7 @@ const Login = () => {
             <FormLabel mt="1rem">Password</FormLabel>
             <Input
               type="password"
+              bgColor="#ffffffcc"
               ref={passwordRef}
               placeholder="panama123"
               focusBorderColor="#06919155"
@@ -99,7 +104,17 @@ const Login = () => {
             </Link>
           </Text>
 
-          <Button mt="1.5rem" w="6rem" colorScheme="teal" onClick={submit}>
+          <Button
+            mt={6}
+            fontWeight="bolder"
+            size="md"
+            w="6rem"
+            ml={2}
+            variant="ghost"
+            colorScheme="teal"
+            bgColor="#00808011"
+            onClick={submit}
+          >
             Login
           </Button>
         </Box>

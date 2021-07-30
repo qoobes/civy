@@ -20,6 +20,6 @@ export const SimpleLoadingView = () => (
     justifyContent="center"
     alignItems="center"
   >
-    <CircularProgress style={{ color: "#EBBC56" }} color="#EBBC56" />
+    <CircularProgress style={{ color: "white" }} color="white" />
   </Box>
 );

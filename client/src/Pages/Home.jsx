@@ -3,7 +3,7 @@ import { DefaultLayout } from "../Components/DefaultLayout";
 
 const Home = () => {
   return (
-    <DefaultLayout>
+    <DefaultLayout disableBg>
       <Box
         d="flex"
         w="100%"

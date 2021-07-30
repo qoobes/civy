@@ -9,6 +9,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
 
   const mistakeToast = () =>
     toast({
+      position: "top",
       title: "You're not logged in",
       description: "Please log in to proceed",
       status: "error",

@@ -34,7 +34,7 @@ const Navbar = () => {
   return (
     <Box>
       <Flex
-        bg={useColorModeValue("white", "gray.800")}
+        bg={useColorModeValue("#ffffffaa", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
         minH={"70px"}
         py={{ base: 6 }}
@@ -308,7 +308,10 @@ const NAV_ITEMS = [
     label: "Dashboard",
     href: "/dashboard",
   },
-
+  {
+    label: "Create",
+    href: "/create",
+  },
   {
     label: "About Us",
     children: [
