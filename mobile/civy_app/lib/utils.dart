@@ -1,88 +1,36 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:civy_app/widgets/todo.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-String twoDigits(int n) {
-  if (n >= 10) return "${n}";
-  return "0${n}";
-}
-
-int toTwelveHour(int n) {
-  return n > 12 ? n % 12 : (n == 0 ? 12 : n);
-}
-
-String amOrPm(int n) {
-return n >= 12 ? 'p.m.' : 'a.m.';
-}
-
-final List<String> months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'Devember'
-];
-
-String computeHowLongAgoText(DateTime timestamp) {
-  DateTime now = DateTime.now();
-
-  Duration difference = now.difference(timestamp);
-
-  if (difference.inSeconds < 60) {
-    return 'Just Now';
-  } else if (difference.inMinutes < 60) {
-    return '${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago';
-  } else if (difference.inHours < 6) {
-    return '${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago';
-  } else {
-    bool sameDay =
-        new DateTime(now.year, now.month, now.day) == new DateTime(timestamp.year, timestamp.month, timestamp.day);
-
-    String onText = sameDay ? 'Today' : 'on ${months[timestamp.month]} ${timestamp.day}';
-    return 'At ${toTwelveHour(timestamp.hour)}:${twoDigits(timestamp.minute)} ${amOrPm(timestamp.hour)} ${onText}';
+extension HexColor on Color {
+  /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
+  static Color fromHex(String hexString) {
+    final buffer = StringBuffer();
+    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
+    buffer.write(hexString.replaceFirst('#', ''));
+    return Color(int.parse(buffer.toString(), radix: 16));
   }
+
+  /// Prefixes a hash sign if [leadingHashSign] is set to `true` (default is `true`).
+  String toHex({bool leadingHashSign = true}) => '${leadingHashSign ? '#' : ''}'
+      '${alpha.toRadixString(16).padLeft(2, '0')}'
+      '${red.toRadixString(16).padLeft(2, '0')}'
+      '${green.toRadixString(16).padLeft(2, '0')}'
+      '${blue.toRadixString(16).padLeft(2, '0')}';
 }
 
-String computeHowLongAgoTextShort(DateTime timestamp) {
-  DateTime now = DateTime.now();
+Future<List<Todo>> getTodos(String company) async {
+  final _collectionRef = FirebaseFirestore.instance
+      .collection('companies')
+      .doc(company)
+      .collection("tasks");
+  QuerySnapshot querySnapshot = await _collectionRef.get();
 
-  Duration difference = now.difference(timestamp);
-
-  if (difference.inSeconds < 60) {
-    return 'Just Now';
-  } else if (difference.inMinutes < 60) {
-    return '${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago';
-  } else if (difference.inHours < 6) {
-    return '${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago';
-  } else {
-    bool sameDay =
-        new DateTime(now.year, now.month, now.day) == new DateTime(timestamp.year, timestamp.month, timestamp.day);
-
-    String onText = sameDay ? 'Today' : 'On ${months[timestamp.month]} ${timestamp.day}';
-    return '${onText}';
-  }
-}
-
-void openMaps(BuildContext context, GeoPoint location, String title) {
-  TargetPlatform platform = Theme.of(context).platform;
-  if(platform == TargetPlatform.iOS) {
-
-    Uri uri = Uri.https('maps.apple.com', '/', {
-      'll':'${location.latitude},${location.longitude}',
-      'z': '19.5',
-      'q': title
-    });
-
-    launch(uri.toString());
-  } else {
-    String androidUrl = 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
-    launch(androidUrl);
+  // Get data from docs and convert map to List
+  List<Map> allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+  List<Todo> todos;
+  for (Map item in allData) {
+    todos.add(new Todo(title: item["name"], details: item["tags"]));
   }
 }
