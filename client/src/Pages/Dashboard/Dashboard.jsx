@@ -7,6 +7,7 @@ import Expenses from "./Expenses";
 import DashHome from "./Home";
 import Insights from "./Insights";
 import Notes from "./Notes";
+import Predictions from "./Predictions";
 import Tasks from "./Tasks";
 
 const Dashboard = () => {
@@ -20,6 +21,11 @@ const Dashboard = () => {
             <Route path="/dashboard/budget" component={Budget} exact />
             <Route path="/dashboard/expenses" component={Expenses} exact />
             <Route path="/dashboard/insights" component={Insights} exact />
+            <Route
+              path="/dashboard/predictions"
+              component={Predictions}
+              exact
+            />
             <Route path="/dashboard/tasks" component={Tasks} exact />
             <Route path="/dashboard/notes" component={Notes} exact />
             <Route path="/dashboard/settings" component={Budget} exact />

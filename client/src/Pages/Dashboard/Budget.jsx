@@ -275,7 +275,7 @@ const Budget = () => {
         </Modal>
 
         <Heading size="xl" textShadow="1px 1px 3px gray">
-          Take a look at your budget
+          Manage your <span style={{ color: "#069191" }}>budget</span>
         </Heading>
         <Flex w="100%" alignItems="center">
           <Box

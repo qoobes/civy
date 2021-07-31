@@ -21,7 +21,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { BiBarChartAlt, BiMoney, BiNotepad } from "react-icons/bi";
+import { BiBarChartAlt, BiLineChart, BiMoney, BiNotepad } from "react-icons/bi";
 import {
   FiBell,
   FiHome,
@@ -39,6 +39,7 @@ const LinkItems = [
   { name: "Budget", icon: FiTrendingUp },
   { name: "Expenses", icon: BiMoney },
   { name: "Insights", icon: BiBarChartAlt },
+  { name: "Predictions", icon: BiLineChart },
   { name: "Tasks", icon: FiStar },
   { name: "Notes", icon: BiNotepad },
   { name: "Settings", icon: FiSettings },

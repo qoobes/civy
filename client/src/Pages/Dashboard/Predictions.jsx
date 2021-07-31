@@ -1,13 +1,33 @@
 import { Box, Heading, ScaleFade, SlideFade, Text } from "@chakra-ui/react";
-import { CanvasJSChart } from "canvasjs-react-charts";
+import { useEffect, useState } from "react";
 import { SimpleLoadingView } from "../../Components/Loading";
-import { createBudgetsChart } from "../../config";
 import { useCompany } from "../../Contexts/CompanyContext";
 
-const Insights = () => {
+const Predictions = () => {
   const [company] = useCompany();
+  const [predict, setPredict] = useState();
 
-  return !company ? (
+  const fetchMonth = async () =>
+    await fetch("http://144.126.219.175/predict", {
+      method: "POST",
+      body: JSON.stringify({
+        budgets: company.budgets,
+        date: new Date()
+          .toDateString()
+          .substring(4, new Date().toDateString().length),
+        category: company.category,
+      }),
+    });
+
+  useEffect(() => {
+    if (!company) return;
+
+    fetchMonth()
+      .then(res => res.json())
+      .then(res => setPredict(res.budget));
+  }, [company]);
+
+  return !predict ? (
     <SimpleLoadingView />
   ) : (
     <ScaleFade in={true}>
@@ -24,10 +44,10 @@ const Insights = () => {
         alignItems="center"
       >
         <Heading size="xl" textShadow="1px 1px 3px gray">
-          Take a look at your <span style={{ color: "#069191" }}>budget</span>
+          Ask the mighty AI to <span style={{ color: "#069191" }}>predict</span>
         </Heading>
         <Text fontSize="3xl" mt={5} mb={5} textShadow="1px 1px 2px gray">
-          Long-term stats
+          The wisdom of AI predicts your budget as such...!
         </Text>
         <Box
           w="40%"
@@ -42,7 +62,7 @@ const Insights = () => {
           }}
         >
           <SlideFade in delay={0.5}>
-            <CanvasJSChart options={createBudgetsChart(company)} />
+            Your next budget: {predict}
           </SlideFade>
         </Box>
       </Box>
@@ -50,4 +70,4 @@ const Insights = () => {
   );
 };
 
-export default Insights;
+export default Predictions;

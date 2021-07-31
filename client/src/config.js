@@ -36,8 +36,7 @@ export const getMonthString = num => {
 
 export const createBudgetsChart = ({ budgets }) => {
   let date = new Date();
-  if (!budgets)
-    budgets = [20000, 20000, 23000, 30002, 23000, 30002, 23000, 30002];
+  if (!budgets) budgets = [20000, 20000, 23000, 30002, 23000, 30002];
 
   budgets.reverse();
 
@@ -59,9 +58,6 @@ export const createBudgetsChart = ({ budgets }) => {
         text: "Take a look at how you're doing!",
       },
     ],
-    axisX: {
-      title: "States",
-    },
     axisY: {
       title: "Budget",
       titleFontColor: "#51CDA0",
@@ -79,10 +75,10 @@ export const createBudgetsChart = ({ budgets }) => {
     data: [
       {
         type: "spline",
-        name: "Units Sold",
+        name: "Budget",
         showInLegend: true,
         xValueFormatString: "MMM YYYY",
-        yValueFormatString: "#,##0 Units",
+        yValueFormatString: "$#,##0 USD",
         dataPoints: compiled,
       },
     ],
